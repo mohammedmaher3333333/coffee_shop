@@ -1,9 +1,11 @@
+import 'package:coffee_shop/constant.dart';
+import 'package:coffee_shop/features/splash/presentation/views/widgets/customDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/widgets/custom_bottom_nav_bar.dart';
 import '../../../cart/presentation/views/cart_view.dart';
-import '../../../shop/presentation/views/widgets/shop_view.dart';
+import '../../../shop/presentation/views/shop_view.dart';
 import '../manager/bottom_nav_bar_cubit/bottom_nav_bar_cubit.dart';
 
 class HomeView extends StatelessWidget {
@@ -11,20 +13,24 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<BottomNavBarCubit, int>(
-        builder: (context, currentIndex) {
-          // عرض الصفحة المناسبة بناءً على العنصر المختار
-          return IndexedStack(
+    return BlocBuilder<BottomNavBarCubit, int>(
+      builder: (context, currentIndex) {
+        return Scaffold(
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: kPrimaryColor,
+          ),
+          drawer: const CustomDrawer(),
+          body: IndexedStack(
             index: currentIndex,
             children: const [
               ShopView(),
               CartView(),
             ],
-          );
-        },
-      ),
-      bottomNavigationBar: const CustomBottomNavBar(),
+          ),
+          bottomNavigationBar: const CustomBottomNavBar(),
+        );
+      },
     );
   }
 }
