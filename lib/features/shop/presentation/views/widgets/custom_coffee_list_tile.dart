@@ -29,7 +29,7 @@ class CustomCoffeeListTile extends StatelessWidget {
           coffeeCubit.coffeeShop[index].name,
         ),
         subtitle: Text(
-          coffeeCubit.coffeeShop[index].price,
+          coffeeCubit.coffeeShop[index].price.toString(),
         ),
         leading: SizedBox(
           width: 50,

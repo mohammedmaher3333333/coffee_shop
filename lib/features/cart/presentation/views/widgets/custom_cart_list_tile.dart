@@ -29,7 +29,7 @@ class CustomCartListTile extends StatelessWidget {
           coffeeCubit.userCurt[index].name,
         ),
         subtitle: Text(
-          coffeeCubit.userCurt[index].price,
+          coffeeCubit.userCurt[index].price.toString(),
         ),
         leading: SizedBox(
           width: 40,

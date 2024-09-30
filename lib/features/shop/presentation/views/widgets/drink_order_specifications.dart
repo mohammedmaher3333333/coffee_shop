@@ -15,7 +15,9 @@ class DrinkOrderSpecifications extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int index = GoRouterState.of(context).extra! as int;
+    final int index = GoRouterState.of(context).extra as int;
+    final coffeeCubit = BlocProvider.of<CoffeeCubit>(context);
+    final cartItem = coffeeCubit.coffeeShop[index];
 
     return Scaffold(
       appBar: AppBar(
@@ -27,65 +29,39 @@ class DrinkOrderSpecifications extends StatelessWidget {
           },
         ),
       ),
-      body: BlocBuilder<CoffeeCubit, CoffeeState>(
-        builder: (context, state) {
-          var coffeeCubit = BlocProvider.of<CoffeeCubit>(context);
-          return Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Image(
-                  width: 150,
-                  image: AssetImage(
-                    coffeeCubit.coffeeShop[index].imagePath,
-                  ),
-                ),
-                const SizedBox(
-                  height: 50,
-                ),
-                const Text(
-                  'QUANTITY',
-                  style: Styles.textStyle22,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                ChooseCountDrinks(coffeeCubit: coffeeCubit),
-                const SizedBox(
-                  height: 30,
-                ),
-                const Text(
-                  'SIZE',
-                  style: Styles.textStyle22,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const CustomSizeDrinkSelector(),
-                const SizedBox(
-                  height: 60,
-                ),
-                CustomButton(
-                  text: 'Add To cart',
-                  onTap: () {
-                    coffeeCubit.addItemToCart(
-                      coffeeCubit.coffeeShop[index],
-                    );
-
-                    CustomShowSnackBar.show(
-                      context,
-                      'Successfully added to cart',
-                    );
-
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image(
+              width: 150,
+              image: AssetImage(cartItem.imagePath),
             ),
-          );
-        },
+            const SizedBox(height: 50),
+            const Text('QUANTITY', style: Styles.textStyle22),
+            const SizedBox(height: 10),
+            ChooseCountDrinks(
+              cartItem: cartItem,
+              increment: (item) => coffeeCubit.incrementItemQuantity(cartItem),
+              decrement: (item) => coffeeCubit.decrementItemQuantity(cartItem),
+            ),
+            const SizedBox(height: 30),
+            const Text('SIZE', style: Styles.textStyle22),
+            const SizedBox(height: 10),
+            const CustomSizeDrinkSelector(),
+            const SizedBox(height: 60),
+            CustomButton(
+              text: 'Add To cart',
+              onTap: () {
+                coffeeCubit.addItemToCart(cartItem);
+                CustomShowSnackBar.show(context, 'Successfully added to cart');
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
