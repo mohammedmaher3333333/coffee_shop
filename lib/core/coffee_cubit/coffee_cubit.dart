@@ -59,10 +59,14 @@ class CoffeeCubit extends Cubit<CoffeeState> {
 
   // Add item to the user's cart
   void addItemToCart(CoffeeModel cartItem) {
-    _userCart.add(cartItem); // Add the selected coffee to the cart
-    calculateTotalPrice(); // Recalculate the total price after adding
-    emit(CoffeeAddItem()); // Emit state to update UI
+    // تحديث حجم المشروب بناءً على الحجم المختار حاليًا
+    cartItem.size = selectedSize;
+
+    _userCart.add(cartItem); // إضافة العنصر إلى العربة
+    calculateTotalPrice(); // حساب السعر الكلي
+    emit(CoffeeAddItem()); // إصدار الحالة لتحديث واجهة المستخدم
   }
+
 
   // Remove item from the user's cart
   void removeItemFromCart(CoffeeModel cartItem) {
