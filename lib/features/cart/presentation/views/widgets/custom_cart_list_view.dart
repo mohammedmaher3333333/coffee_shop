@@ -21,6 +21,7 @@ class CustomCartListView extends StatelessWidget {
                 iconData: Icons.remove,
                 index: index,
                 onPressed: () {
+                  print('quantity ${coffeeCubit.userCurt[index].quantity}');
                   coffeeCubit.removeItemFromCart(coffeeCubit.userCurt[index]);
                 },
               );

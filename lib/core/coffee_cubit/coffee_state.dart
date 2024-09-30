@@ -14,8 +14,8 @@ final class CoffeeRemoveItem extends CoffeeState {}
 final class CoffeeIncrementCountDrinks extends CoffeeState {}
 
 final class CoffeeDecrementCountDrinks extends CoffeeState {}
-final class CoffeeGetCountDrinks extends CoffeeState {}
 
+final class CoffeeGetCountDrinks extends CoffeeState {}
 
 // size Request drinks
 
@@ -24,4 +24,3 @@ final class CoffeeChangeSelectedSize extends CoffeeState {}
 // calculate total sale
 
 final class CoffeeCalculateTotalSale extends CoffeeState {}
-

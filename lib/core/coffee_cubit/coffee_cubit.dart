@@ -9,7 +9,7 @@ part 'coffee_state.dart';
 class CoffeeCubit extends Cubit<CoffeeState> {
   CoffeeCubit() : super(CoffeeInitial());
 
-  // قائمة المشروبات
+  // Coffee shop list (available drinks)
   final List<CoffeeModel> _shop = [
     CoffeeModel(
       name: 'black Coffee',
@@ -48,102 +48,82 @@ class CoffeeCubit extends Cubit<CoffeeState> {
     ),
   ];
 
-  // سلة المستخدم
+  // User's cart (items selected by the user)
   final List<CoffeeModel> _userCart = [];
 
-  // الحصول على قائمة المشروبات
+  // Getter for coffee shop list (returns the available drinks)
   List<CoffeeModel> get coffeeShop => _shop;
 
-  // الحصول على سلة المستخدم
+  // Getter for user's cart (returns items added to cart)
   List<CoffeeModel> get userCurt => _userCart;
 
-// إضافة عنصر إلى السلة
+  // Add item to the user's cart
   void addItemToCart(CoffeeModel cartItem) {
-    _userCart.add(cartItem);
-    calculateTotalPrice();
-    emit(CoffeeAddItem());
+    _userCart.add(cartItem); // Add the selected coffee to the cart
+    calculateTotalPrice(); // Recalculate the total price after adding
+    emit(CoffeeAddItem()); // Emit state to update UI
   }
 
-  // إزالة عنصر من السلة
+  // Remove item from the user's cart
   void removeItemFromCart(CoffeeModel cartItem) {
-    _userCart.remove(cartItem);
-    calculateTotalPrice();
-    emit(CoffeeRemoveItem());
+    _userCart.remove(cartItem); // Remove the coffee from the cart
+    calculateTotalPrice(); // Recalculate total price after removal
+    emit(CoffeeRemoveItem()); // Emit state to update UI
   }
 
-  // // جلب العنصر من السلة باستخدام الفهرس
-  // CoffeeModel? getCartItem(int index) {
-  //   if (index >= 0 && index < _userCart.length) {
-  //     return _userCart[index];
-  //   }
-  //   return null;
+  // void refreshItemQuantity(CoffeeModel cartItem) {
+  //   final index = _shop.indexOf(cartItem);
+  //   _shop[index].quantity = 1;
   // }
 
-  void getItemQuantity(CoffeeModel cartItem) {
-    final index = _shop.indexOf(cartItem);
-     _shop[index].quantity;
-    emit(CoffeeGetCountDrinks());
-  }
 
-  // زيادة كمية العنصر
+  // Increase the quantity of an item in the user's cart
   void incrementItemQuantity(CoffeeModel cartItem) {
     final index = _shop.indexOf(cartItem);
-    if (index != -1 && _shop[index].quantity < 10) {
-      _shop[index].quantity += 1;
-      calculateTotalPrice();
-      emit(CoffeeIncrementCountDrinks());
+    if (index != -1 && _shop[index].quantity < 10) { // Check if quantity is less than 10
+      _shop[index].quantity += 1; // Increment quantity
+      calculateTotalPrice(); // Recalculate total price
+      emit(CoffeeIncrementCountDrinks()); // Emit state to update UI
     }
   }
 
-  // تقليل كمية العنصر
+  // Decrease the quantity of an item in the user's cart
   void decrementItemQuantity(CoffeeModel cartItem) {
     final index = _shop.indexOf(cartItem);
-    if (index != -1 && _shop[index].quantity > 1) {
-      _shop[index].quantity -= 1;
-      calculateTotalPrice();
-      emit(CoffeeDecrementCountDrinks());
+    if (index != -1 && _shop[index].quantity > 1) { // Check if quantity is more than 1
+      _shop[index].quantity -= 1; // Decrease quantity
+      calculateTotalPrice(); // Recalculate total price
+      emit(CoffeeDecrementCountDrinks()); // Emit state to update UI
     }
   }
 
-  // تغيير حجم المشروب
-  String selectedSize = 'M';
+  // Change the size of the selected drink
+  String selectedSize = 'M'; // Default size is Medium (M)
 
   void changeSelectedSize({required String newSelected}) {
-    selectedSize = newSelected;
-    emit(CoffeeChangeSelectedSize());
+    selectedSize = newSelected; // Update the selected size
+    emit(CoffeeChangeSelectedSize()); // Emit state to update UI
   }
 
-  // // حساب المجموع الكلي
-  // double totalPrice = 0.0;
-  //
-  // void calculateTotalPrice() {
-  //   totalPrice = 0.0;
-  //   for (var item in _userCart) {
-  //     totalPrice += item.price * item.quantity;
-  //   }
-  //   print(' total price ${totalPrice}');
-  //   emit(CoffeeCalculateTotalSale());
-  // }
-
-  // حساب المجموع الكلي
+  // Calculate total price for items in the user's cart, considering size
   double totalPrice = 0.0;
 
   void calculateTotalPrice() {
-    totalPrice = 0.0;
+    totalPrice = 0.0; // Reset total price
     for (var item in _userCart) {
       double itemPrice = item.price;
 
-      // تعديل السعر بناءً على الحجم
+      // Adjust price based on the selected size
       if (item.size == 'S') {
-        itemPrice *= 0.90; // خصم 10%
+        itemPrice *= 0.90; // 10% discount for small size
       } else if (item.size == 'L') {
-        itemPrice *= 1.10; // زيادة 10%
+        itemPrice *= 1.10; // 10% increase for large size
       }
 
-      totalPrice += itemPrice * item.quantity;
+      totalPrice += itemPrice * item.quantity; // Add item price multiplied by quantity to total
     }
 
-    print('Total price: $totalPrice');
-    emit(CoffeeCalculateTotalSale());
+    emit(CoffeeCalculateTotalSale()); // Emit state to update UI
   }
+
 }

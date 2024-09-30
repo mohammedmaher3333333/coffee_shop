@@ -1,4 +1,5 @@
 import 'package:coffee_shop/core/coffee_cubit/coffee_cubit.dart';
+import 'package:coffee_shop/features/cart/presentation/views/widgets/custom_item_details.dart';
 import 'package:flutter/material.dart';
 
 class CustomCartListTile extends StatelessWidget {
@@ -24,27 +25,35 @@ class CustomCartListTile extends StatelessWidget {
       ),
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
       margin: const EdgeInsets.only(bottom: 10),
-      child: ListTile(
-        title: Text(
-          coffeeCubit.userCurt[index].name,
-        ),
-        subtitle: Text(
-          coffeeCubit.userCurt[index].price.toString(),
-        ),
-        leading: SizedBox(
-          width: 40,
-          child: Image(
-            image: AssetImage(
-              coffeeCubit.userCurt[index].imagePath,
+      child: Column(
+        children: [
+          ListTile(
+            title: Text(
+              coffeeCubit.userCurt[index].name,
+            ),
+            subtitle: Text(
+              coffeeCubit.userCurt[index].price.toString(),
+            ),
+            leading: SizedBox(
+              width: 40,
+              child: Image(
+                image: AssetImage(
+                  coffeeCubit.userCurt[index].imagePath,
+                ),
+              ),
+            ),
+            trailing: IconButton(
+              onPressed: onPressed,
+              icon: Icon(
+                iconData,
+              ),
             ),
           ),
-        ),
-        trailing: IconButton(
-          onPressed: onPressed,
-          icon: Icon(
-            iconData,
+          CustomItemDetails(
+            coffeeCubit: coffeeCubit,
+            index: index,
           ),
-        ),
+        ],
       ),
     );
   }

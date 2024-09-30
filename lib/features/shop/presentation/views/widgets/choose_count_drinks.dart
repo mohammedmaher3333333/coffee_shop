@@ -10,12 +10,13 @@ class ChooseCountDrinks extends StatelessWidget {
   final Function(CoffeeModel) decrement;
 
   const ChooseCountDrinks({
-    Key? key,
+    super.key,
     required this.cartItem,
     required this.increment,
     required this.decrement,
-  }) : super(key: key);
+  });
 
+  @override
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -24,7 +25,7 @@ class ChooseCountDrinks extends StatelessWidget {
         IconButton(
           icon: const Icon(Icons.remove),
           onPressed: () {
-            decrement(cartItem);
+            decrement(cartItem); // قلل الكمية
           },
         ),
         BlocBuilder<CoffeeCubit, CoffeeState>(
@@ -38,7 +39,7 @@ class ChooseCountDrinks extends StatelessWidget {
         IconButton(
           icon: const Icon(Icons.add),
           onPressed: () {
-            increment(cartItem);
+            increment(cartItem); // زد الكمية
           },
         ),
       ],
