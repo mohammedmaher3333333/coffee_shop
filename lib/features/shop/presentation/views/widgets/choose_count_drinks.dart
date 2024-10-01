@@ -28,17 +28,17 @@ class ChooseCountDrinks extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.remove),
               onPressed: () {
-                decrement(cartItem); // قلل الكمية
+                decrement(cartItem);
               },
             ),
             Text(
-              '${coffeeCubit.quantity}', // عرض الكمية
+              '${coffeeCubit.quantity}',
               style: Styles.textStyle24,
             ),
             IconButton(
               icon: const Icon(Icons.add),
               onPressed: () {
-                increment(cartItem); // زد الكمية
+                increment(cartItem);
               },
             ),
           ],

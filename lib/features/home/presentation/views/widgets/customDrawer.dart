@@ -1,6 +1,6 @@
-import 'package:coffee_shop/core/utils/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:coffee_shop/core/utils/assets.dart';
 
 import '../../../../../constant.dart';
 import '../../manager/bottom_nav_bar_cubit/bottom_nav_bar_cubit.dart';
@@ -14,8 +14,9 @@ class CustomDrawer extends StatelessWidget {
       backgroundColor: kSecondaryColor,
       child: Column(
         children: [
-          const SizedBox(height: 60,),
-
+          const SizedBox(
+            height: 60,
+          ),
           const DrawerHeader(
             child: Image(
               image: AssetImage(
@@ -23,17 +24,14 @@ class CustomDrawer extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 20,),
-
-          // عنصر Home في القائمة الجانبية
+          const SizedBox(
+            height: 20,
+          ),
           ListTile(
             leading: const Icon(Icons.home),
             title: const Text('Home'),
             onTap: () {
-              // تحديث currentIndex في BottomNavBarCubit إلى 0 للانتقال إلى ShopView
               BlocProvider.of<BottomNavBarCubit>(context).updateIndex(0);
-
-              // إغلاق القائمة الجانبية
               Navigator.pop(context);
             },
           ),
@@ -44,9 +42,7 @@ class CustomDrawer extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
-
           const Spacer(),
-
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text('Logout'),

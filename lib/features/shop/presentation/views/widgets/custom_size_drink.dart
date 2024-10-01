@@ -16,7 +16,7 @@ class CustomSizeDrink extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap, // يتم استدعاء onTap عند الضغط
+      onTap: onTap,
       child: SizedBox(
         width: 50,
         height: 40,
@@ -24,20 +24,16 @@ class CustomSizeDrink extends StatelessWidget {
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             color: isSelected ? Colors.brown : Colors.white,
-            // تغيير اللون عند التحديد
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: isSelected
-                  ? Colors.brown
-                  : Colors.grey, // تمييز العنصر المحدد
+              color: isSelected ? Colors.brown : Colors.grey,
             ),
           ),
           child: Center(
             child: Text(
               text,
               style: Styles.textStyle14.copyWith(
-                color:
-                    isSelected ? Colors.white : Colors.black, // تغيير لون النص
+                color: isSelected ? Colors.white : Colors.black,
               ),
             ),
           ),

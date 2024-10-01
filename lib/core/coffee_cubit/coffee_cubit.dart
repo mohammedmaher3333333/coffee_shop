@@ -37,11 +37,6 @@ class CoffeeCubit extends Cubit<CoffeeState> {
       imagePath: AssetsData.espresso,
     ),
     CoffeeModel(
-      name: 'hot Chocolate',
-      price: 70.0,
-      imagePath: AssetsData.hotChocolate,
-    ),
-    CoffeeModel(
       name: 'orange coffee',
       price: 40.0,
       imagePath: AssetsData.orangeCoffee,
@@ -59,32 +54,30 @@ class CoffeeCubit extends Cubit<CoffeeState> {
 
   // Add item to the user's cart
   void addItemToCart(CoffeeModel cartItem) {
-    // إنشاء نسخة جديدة من العنصر لضمان أن الطلبات لا تؤثر على بعضها البعض
     CoffeeModel newCartItem = CoffeeModel(
       name: cartItem.name,
       price: cartItem.price,
       imagePath: cartItem.imagePath,
       size: selectedSize,
-      // الحجم المختار
-      quantity: quantity, // الكمية المختارة
+      quantity: quantity,
     );
 
-    _userCart.add(newCartItem); // إضافة النسخة الجديدة إلى العربة
-    calculateTotalPrice(); // حساب السعر الكلي
+    _userCart.add(newCartItem);
+    calculateTotalPrice();
     refreshDetails();
-    emit(CoffeeAddItem()); // إصدار الحالة لتحديث واجهة المستخدم
+    emit(CoffeeAddItem());
   }
 
   // Remove item from the user's cart
   void removeItemFromCart(CoffeeModel cartItem) {
-    _userCart.remove(cartItem); // Remove the coffee from the cart
-    calculateTotalPrice(); // Recalculate total price after removal
-    emit(CoffeeRemoveItem()); // Emit state to update UI
+    _userCart.remove(cartItem);
+    calculateTotalPrice();
+    emit(CoffeeRemoveItem());
   }
 
   int quantity = 1;
 
-// زيادة كمية العنصر في العربة
+  // Increment item quantity in the cart
   void incrementItemQuantity() {
     if (quantity < 10) {
       quantity += 1;
@@ -92,7 +85,7 @@ class CoffeeCubit extends Cubit<CoffeeState> {
     }
   }
 
-// تقليل كمية العنصر في العربة
+  // Decrement item quantity in the cart
   void decrementItemQuantity() {
     if (quantity > 1) {
       quantity -= 1;
@@ -104,11 +97,11 @@ class CoffeeCubit extends Cubit<CoffeeState> {
   String selectedSize = 'M'; // Default size is Medium (M)
 
   void changeSelectedSize({required String newSelected}) {
-    selectedSize = newSelected; // Update the selected size
-    emit(CoffeeChangeSelectedSize()); // Emit state to update UI
+    selectedSize = newSelected;
+    emit(CoffeeChangeSelectedSize());
   }
 
-  // refresh details
+  // Refresh drink details
   void refreshDetails() {
     selectedSize = 'M';
     quantity = 1;
@@ -119,20 +112,18 @@ class CoffeeCubit extends Cubit<CoffeeState> {
   double totalPrice = 0.0;
 
   void calculateTotalPrice() {
-    totalPrice = 0.0; // Reset total price
+    totalPrice = 0.0;
     for (var item in _userCart) {
       double itemPrice = item.price;
 
-      // Adjust price based on the selected size
       if (item.size == 'S') {
-        itemPrice *= 0.80; // 10% discount for small size
+        itemPrice *= 0.80; // 20% discount for small size
       } else if (item.size == 'L') {
-        itemPrice *= 1.20; // 10% increase for large size
+        itemPrice *= 1.20; // 20% increase for large size
       }
 
-      totalPrice += itemPrice *
-          item.quantity; // Add item price multiplied by quantity to total
+      totalPrice += itemPrice * item.quantity;
     }
-    emit(CoffeeCalculateTotalSale()); // Emit state to update UI
+    emit(CoffeeCalculateTotalSale());
   }
 }

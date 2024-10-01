@@ -8,15 +8,14 @@ class CustomBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // استخدام BlocBuilder لاستخراج الـ currentIndex
+    // BlocBuilder listens to the current index and rebuilds when the state changes
     return BlocBuilder<BottomNavBarCubit, int>(
       builder: (context, currentIndex) {
         return Container(
           margin: const EdgeInsets.all(5),
           child: GNav(
-            selectedIndex: currentIndex, // تعيين الزر المفعل بناءً على الحالة
+            selectedIndex: currentIndex,
             onTabChange: (value) {
-              // تحديث Cubit لتغيير الصفحة
               BlocProvider.of<BottomNavBarCubit>(context).updateIndex(value);
             },
             color: Colors.grey.shade400,

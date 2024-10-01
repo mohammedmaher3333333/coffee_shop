@@ -15,7 +15,6 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<BottomNavBarCubit, int>(
       builder: (context, currentIndex) {
-        print('Current Index: $currentIndex'); // للتحقق
         return Scaffold(
           appBar: AppBar(
             elevation: 0,
