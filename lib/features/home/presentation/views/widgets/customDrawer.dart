@@ -1,10 +1,9 @@
-
-import 'package:coffee_shop/core/utils/app_router.dart';
 import 'package:coffee_shop/core/utils/assets.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../constant.dart';
+import '../../manager/bottom_nav_bar_cubit/bottom_nav_bar_cubit.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -17,7 +16,6 @@ class CustomDrawer extends StatelessWidget {
         children: [
           const SizedBox(height: 60,),
 
-          // رأس القائمة الجانبية (يمكن تخصيصه)
           const DrawerHeader(
             child: Image(
               image: AssetImage(
@@ -26,13 +24,17 @@ class CustomDrawer extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20,),
-          // عناصر القائمة الجانبية الأخرى
+
+          // عنصر Home في القائمة الجانبية
           ListTile(
             leading: const Icon(Icons.home),
             title: const Text('Home'),
             onTap: () {
-              GoRouter.of(context).push(AppRouter.kHomeView);
-              Navigator.pop(context); // إغلاق القائمة الجانبية
+              // تحديث currentIndex في BottomNavBarCubit إلى 0 للانتقال إلى ShopView
+              BlocProvider.of<BottomNavBarCubit>(context).updateIndex(0);
+
+              // إغلاق القائمة الجانبية
+              Navigator.pop(context);
             },
           ),
           ListTile(
@@ -44,7 +46,7 @@ class CustomDrawer extends StatelessWidget {
           ),
 
           const Spacer(),
-          // يفصل العناصر العلوية عن السفلية ويدفع "Logout" للأسفل
+
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text('Logout'),
