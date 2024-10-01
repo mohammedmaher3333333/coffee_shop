@@ -59,14 +59,21 @@ class CoffeeCubit extends Cubit<CoffeeState> {
 
   // Add item to the user's cart
   void addItemToCart(CoffeeModel cartItem) {
-    // تحديث حجم المشروب بناءً على الحجم المختار حاليًا
-    cartItem.size = selectedSize;
+    // إنشاء نسخة جديدة من العنصر لضمان أن الطلبات لا تؤثر على بعضها البعض
+    CoffeeModel newCartItem = CoffeeModel(
+      name: cartItem.name,
+      price: cartItem.price,
+      imagePath: cartItem.imagePath,
+      size: selectedSize,
+      // الحجم المختار
+      quantity: quantity, // الكمية المختارة
+    );
 
-    _userCart.add(cartItem); // إضافة العنصر إلى العربة
+    _userCart.add(newCartItem); // إضافة النسخة الجديدة إلى العربة
     calculateTotalPrice(); // حساب السعر الكلي
+    refreshDetails();
     emit(CoffeeAddItem()); // إصدار الحالة لتحديث واجهة المستخدم
   }
-
 
   // Remove item from the user's cart
   void removeItemFromCart(CoffeeModel cartItem) {
@@ -75,29 +82,21 @@ class CoffeeCubit extends Cubit<CoffeeState> {
     emit(CoffeeRemoveItem()); // Emit state to update UI
   }
 
-  // void refreshItemQuantity(CoffeeModel cartItem) {
-  //   final index = _shop.indexOf(cartItem);
-  //   _shop[index].quantity = 1;
-  // }
+  int quantity = 1;
 
-
-  // Increase the quantity of an item in the user's cart
-  void incrementItemQuantity(CoffeeModel cartItem) {
-    final index = _shop.indexOf(cartItem);
-    if (index != -1 && _shop[index].quantity < 10) { // Check if quantity is less than 10
-      _shop[index].quantity += 1; // Increment quantity
-      calculateTotalPrice(); // Recalculate total price
-      emit(CoffeeIncrementCountDrinks()); // Emit state to update UI
+// زيادة كمية العنصر في العربة
+  void incrementItemQuantity() {
+    if (quantity < 10) {
+      quantity += 1;
+      emit(CoffeeIncrementCountDrinks());
     }
   }
 
-  // Decrease the quantity of an item in the user's cart
-  void decrementItemQuantity(CoffeeModel cartItem) {
-    final index = _shop.indexOf(cartItem);
-    if (index != -1 && _shop[index].quantity > 1) { // Check if quantity is more than 1
-      _shop[index].quantity -= 1; // Decrease quantity
-      calculateTotalPrice(); // Recalculate total price
-      emit(CoffeeDecrementCountDrinks()); // Emit state to update UI
+// تقليل كمية العنصر في العربة
+  void decrementItemQuantity() {
+    if (quantity > 1) {
+      quantity -= 1;
+      emit(CoffeeDecrementCountDrinks());
     }
   }
 
@@ -107,6 +106,13 @@ class CoffeeCubit extends Cubit<CoffeeState> {
   void changeSelectedSize({required String newSelected}) {
     selectedSize = newSelected; // Update the selected size
     emit(CoffeeChangeSelectedSize()); // Emit state to update UI
+  }
+
+  // refresh details
+  void refreshDetails() {
+    selectedSize = 'M';
+    quantity = 1;
+    emit(CoffeeRefreshDetailsDrink());
   }
 
   // Calculate total price for items in the user's cart, considering size
@@ -119,15 +125,14 @@ class CoffeeCubit extends Cubit<CoffeeState> {
 
       // Adjust price based on the selected size
       if (item.size == 'S') {
-        itemPrice *= 0.90; // 10% discount for small size
+        itemPrice *= 0.80; // 10% discount for small size
       } else if (item.size == 'L') {
-        itemPrice *= 1.10; // 10% increase for large size
+        itemPrice *= 1.20; // 10% increase for large size
       }
 
-      totalPrice += itemPrice * item.quantity; // Add item price multiplied by quantity to total
+      totalPrice += itemPrice *
+          item.quantity; // Add item price multiplied by quantity to total
     }
-
     emit(CoffeeCalculateTotalSale()); // Emit state to update UI
   }
-
 }

@@ -19,30 +19,31 @@ class ChooseCountDrinks extends StatelessWidget {
   @override
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        IconButton(
-          icon: const Icon(Icons.remove),
-          onPressed: () {
-            decrement(cartItem); // قلل الكمية
-          },
-        ),
-        BlocBuilder<CoffeeCubit, CoffeeState>(
-          builder: (context, state) {
-            return Text(
-              '${cartItem.quantity}', // عرض الكمية
+    return BlocBuilder<CoffeeCubit, CoffeeState>(
+      builder: (context, state) {
+        var coffeeCubit=BlocProvider.of<CoffeeCubit>(context);
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              icon: const Icon(Icons.remove),
+              onPressed: () {
+                decrement(cartItem); // قلل الكمية
+              },
+            ),
+            Text(
+              '${coffeeCubit.quantity}', // عرض الكمية
               style: Styles.textStyle24,
-            );
-          },
-        ),
-        IconButton(
-          icon: const Icon(Icons.add),
-          onPressed: () {
-            increment(cartItem); // زد الكمية
-          },
-        ),
-      ],
+            ),
+            IconButton(
+              icon: const Icon(Icons.add),
+              onPressed: () {
+                increment(cartItem); // زد الكمية
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -20,6 +20,9 @@ final class CoffeeGetCountDrinks extends CoffeeState {}
 // size Request drinks
 
 final class CoffeeChangeSelectedSize extends CoffeeState {}
+// refresh details drinks
+
+final class CoffeeRefreshDetailsDrink extends CoffeeState {}
 
 // calculate total sale
 

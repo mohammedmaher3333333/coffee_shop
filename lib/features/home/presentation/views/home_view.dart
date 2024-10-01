@@ -1,5 +1,5 @@
 import 'package:coffee_shop/constant.dart';
-import 'package:coffee_shop/features/splash/presentation/views/widgets/customDrawer.dart';
+import 'package:coffee_shop/features/home/presentation/views/widgets/customDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

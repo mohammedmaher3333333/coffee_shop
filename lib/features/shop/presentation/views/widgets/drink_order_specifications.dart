@@ -44,8 +44,8 @@ class DrinkOrderSpecifications extends StatelessWidget {
             const SizedBox(height: 10),
             ChooseCountDrinks(
               cartItem: cartItem,
-              increment: (item) => coffeeCubit.incrementItemQuantity(cartItem),
-              decrement: (item) => coffeeCubit.decrementItemQuantity(cartItem),
+              increment: (item) => coffeeCubit.incrementItemQuantity(),
+              decrement: (item) => coffeeCubit.decrementItemQuantity(),
             ),
             const SizedBox(height: 30),
             const Text('SIZE', style: Styles.textStyle22),
